@@ -101,7 +101,8 @@
 
 
     <!-- JavaScript goes here inside the script tag -->
-
+    <!-- This is the script for the wordcounter -->
+    <script src ="word_counter.js"></script>
 
     <!-- This is the javascript to grab the contents of the div-->
     <script> 
@@ -110,9 +111,16 @@
 
         
 
+        //everytime the user inputs something into the box, run this code.
         textarea.addEventListener("input", () => {
+            
+            //Update the string value
             const content = textarea.value;
-            console.log(content);
+            //get the number of words in the string
+            word_counter(content);
+
+            
+            //console.log(content);
         });
     </script>
 
