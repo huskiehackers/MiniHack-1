@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Page Setup</title>
+    
+    <!-- CSS goes here inside the style tag -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            flex-direction: column;
+        }
+
+        .typing-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            resize: none;
+        }
+
+        #text-to-type {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 100px;
+            text-align: left;
+            user-select: none; 
+        }
+
+        #typing-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: none; 
+        }
+        
+        .results {
+            margin-top: 15px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        
+        .svg-player {
+            position: absolute;
+            top: 220px;  
+            left: 720px; 
+            width: 100px;
+            height: 100px;
+        }
+
+        .svg-enemy {
+            position: absolute;
+            top: 290px;  
+            left: 720px; 
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body>
+    <!--HTML-->
+    <div class="typing-container">
+        <h1>Race the bug!</h1>
+        <div id="text-to-type"></div>
+        <textarea id="typing-input" rows="5" placeholder="Start typing here..." autofocus></textarea>
+        <div class="results">
+            <p>WPM: <span id="wpm">0</span> | Accuracy: <span id="accuracy">100%</span></p>
+        </div>
+    </div>
+    <div class="svg-player">
+    <svg width="100" height="100">
+        <circle cx="50" cy="50" r="15" fill="black"></circle>
+
+    </svg>
+    </div>
+    <div class="svg-enemy">
+    <svg width="100" height="100">
+        <circle cx="50" cy="50" r="15" fill="red"></circle>
+    </svg>
+    </div>
+
+    <!-- JavaScript goes here inside the script tag -->
+</body>
+</html>
