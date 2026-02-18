@@ -97,5 +97,20 @@
     </div>
 
     <!-- JavaScript goes here inside the script tag -->
+
+
+    <!-- This is the javascript to grab the contents of the div-->
+    <script> 
+        
+        const textarea = document.getElementById("typing-input");
+
+        
+
+        textarea.addEventListener("input", () => {
+            const content = textarea.value;
+            console.log(content);
+        });
+    </script>
+
 </body>
 </html>
