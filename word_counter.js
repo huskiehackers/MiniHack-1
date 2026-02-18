@@ -22,7 +22,7 @@ function word_counter(istring)
     
 
 
-    console.log(arr);
+    console.log(arr.length);
 
     return arr.length;
 }
