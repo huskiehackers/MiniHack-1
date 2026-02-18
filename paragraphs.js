@@ -1,0 +1,17 @@
+class paragraphs{
+    
+    static paragraphs = [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    ];
+
+
+
+
+
+}
