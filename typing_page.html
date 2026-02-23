@@ -177,8 +177,15 @@
             
             //Update the string value
             const content = textarea.value;
+            //incorrect words but only count the ones that are fully typed and wrong, not the current word being typed
+            const incorrectWords = content.split(/\s+/).filter((word, i) => {
+                const originalWord = words[i];
+                return word.length > 0 && word !== originalWord && i < content.split(/\s+/).length - 1;
+            }).length;        
             //get the number of words in the string
             word_counter(content);
+            //call accuracy calculator
+            accuracyDisplay.textContent = calculateAccuracy(incorrectWords, text);
 
             // Compare typed words to the paragraph and hide matched ones
             const typedWords = content.split(/\s+/).filter(w => w.length > 0);
@@ -225,6 +232,8 @@
             } else {
                 textToType.style.left = '0'; //reset to original position if user goes back before halfway
             }
+            
+
         });
 
     </script>
@@ -252,7 +261,22 @@
         // Start the timer when the script loads
         window.onload = startTimer;
     </script>
+    <!-- accuracy calculator -->
 
+    <script>
+        // Function to calculate accuracy as a percentage start at 100% and decrease based on the number of incorrect words typed
+        function calculateAccuracy(incorrectWords, original) {
+            const originalWords = original.trim().split(/\s+/);
+            let correctCount = originalWords.length; // Start with all words correct
+
+            // Count how many words are correct based on the number of incorrect words
+            correctCount = originalWords.length - incorrectWords;
+
+            // Calculate accuracy percentage, calculate only if the word is red and not gray
+            const accuracy = (correctCount / originalWords.length) * 100;
+            return accuracy.toFixed(0) + '%'; // Return accuracy as a percentage with 2 decimal places
+        }
+    </script>
 
 </body>
 </html>
