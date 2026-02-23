@@ -107,7 +107,7 @@
         <h1>Eat da word grubs!</h1>
 
         <!-- This is the HTML element for the timer-->
-        <textarea readonly id="timerDisplay" rows = 1 placeholder="0"></textarea>
+        <textarea readonly id="timerDisplay" rows = 1 placeholder="1"  style="border:none;resize:none;text-align:center;">0s</textarea>
 
         <div id="svgs-container">
             <div class="svg-player">
@@ -165,6 +165,11 @@
             if (e.key === "Enter") {
                 e.preventDefault();
             }
+        });
+
+        // Disable pasting
+        textarea.addEventListener('paste', function(event) {
+            event.preventDefault(); // Stop the paste action
         });
 
         //everytime the user inputs something into the box, run this code.
@@ -231,7 +236,7 @@
         
         function Timer() {
         seconds++;
-        document.getElementById("timerDisplay").textContent = seconds;
+        document.getElementById("timerDisplay").textContent = seconds + "s";
         }
 
         function startTimer() {
