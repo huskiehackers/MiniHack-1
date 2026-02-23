@@ -3,11 +3,44 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Slackey&display=swap');
+
+            body {
+                background-image: url('assets/background.jpg');
+                background-size: cover;
+                background-position: center;
+                font-family: "Slackey", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 3rem;
+                color: #b72626;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+                flex-direction: column;
+            }
+
+            h1 {
+                margin: 20px 0;
+                text-shadow: #3f0101 10px 10px 0;
+            }
+
+            a {
+                background-color: #b72626;
+                color: #3f0101;
+                padding: 15px 30px;
+                border-radius: 20px;
+                text-decoration: none;
+            }
+        </style>
     </head>
 
     <body>
-        <h1>Welcome to the Typing Test!</h1>
-        <p>Click the button below to start the test.</p>
-        <button onclick="window.location.href='typing_page.html'">Start Test</button>
+        <img src="assets/ladybug-logo.gif" alt="ladybug logo" width="200" height="200">
+        <h1>BUGGY TYPER</h1>
+        <a href="typing_page.html">Press to Start!</a>
     </body>
 </html>
