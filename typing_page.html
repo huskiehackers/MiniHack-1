@@ -29,7 +29,8 @@
             resize: none;
         }
 
-        #text-to-type {
+
+        #svgs-container {
             position: relative;
             font-size: 1.2em;
             margin-bottom: 15px;
@@ -59,19 +60,42 @@
         
         .svg-player {
             position: absolute;
-            top: 25%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
+            top: -20px;
+            left: 0;
+            width: 100%;
             height: 100px;
+            overflow: hidden;
+        }
+
+        .svg-player svg {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        #text-to-type {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1em;
+            white-space: nowrap;
+            text-align: left;
+            padding-left: 50px;
+            z-index: 1;
+            transition: left 0.2s ease;
         }
 
         .svg-enemy {
             position: absolute;
-            top: 75%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
+            top: 40px;
+            left: 0px;
+            display: flex;
+            align-items: center;
+        
+            width: 100%;
             height: 100px;
         }
 
@@ -80,17 +104,22 @@
 <body>
     <!--HTML-->
     <div class="typing-container">
-        <h1>Race the bug!</h1>
-        <div id="text-to-type">
+        <h1>Eat da word grubs!</h1>
+
+        <div id="svgs-container">
             <div class="svg-player">
-                <svg width="100" height="100">
-                    <circle cx="50" cy="50" r="15" fill="black"></circle>
+                <svg width="50" height="50">
+                    <circle -cx="35" cy="25" r="25" fill="black"></circle>
                 </svg>
+                <div id="text-to-type">
+
+                </div>
             </div>
             <div class="svg-enemy">
-                <svg width="100" height="100">
-                    <circle cx="50" cy="50" r="15" fill="red"></circle>
+                <svg width="50" height="50">
+                    <circle -cx="35" cy="25" r="25" fill="red"></circle>
                 </svg>
+                
             </div>
         </div>
         <textarea id="typing-input" rows="5" placeholder="Start typing here..." autofocus></textarea>
@@ -100,16 +129,40 @@
     </div>
 
 
-    <!-- JavaScript goes here inside the script tag -->
+    <!-- This is the script for the words -->
+    <script src="paragraphs.js"></script>
+
+    
     <!-- This is the script for the wordcounter -->
     <script src ="word_counter.js"></script>
 
-    <!-- This is the javascript to grab the contents of the div-->
-    <script> 
+
+    <!-- JavaScript  -->
+    <script>
+        /* getting input and saving it from "typing-container" */
+        const textToType = document.getElementById('text-to-type');
+        const typingInput = document.getElementById('typing-input');
+        const wpmDisplay = document.getElementById('wpm');
+        const accuracyDisplay = document.getElementById('accuracy');
+
+        const text = paragraphs.paragraphs[Math.floor(Math.random() * paragraphs.paragraphs.length)];
+        // Wrap each word in a span so we can hide them individually
+        const words = text.split(' ');
+        textToType.innerHTML = words
+            .map((word, i) => `<span id="word-${i}">${word}</span>`)
+            .join(' ');
+
         
         const textarea = document.getElementById("typing-input");
 
         
+
+        // Block Enter key to prevent new lines
+        textarea.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+            }
+        });
 
         //everytime the user inputs something into the box, run this code.
         textarea.addEventListener("input", () => {
@@ -119,10 +172,55 @@
             //get the number of words in the string
             word_counter(content);
 
-            
-            //console.log(content);
+            // Compare typed words to the paragraph and hide matched ones
+            const typedWords = content.split(/\s+/).filter(w => w.length > 0);
+            const completedCount = Math.max(0, typedWords.length - 1);
+
+            // Determine how many words have scrolled past the left edge
+            const scrollThresholdForHide = 4;
+            // Only start hiding words after the user has passed the scroll threshold
+            const wordsScrolledPast = completedCount > scrollThresholdForHide 
+                ? completedCount - scrollThresholdForHide
+                : 0;
+
+            words.forEach((word, i) => {
+                const span = document.getElementById(`word-${i}`);
+                if (i < wordsScrolledPast) {
+                    // Word has scrolled past the left edge — hide it
+                    span.style.visibility = 'hidden';
+                } else if (i < typedWords.length - 1 && typedWords[i] === word) {
+                    // Fully typed & matches — gray it out
+                    span.style.visibility = 'visible';
+                    span.style.color = 'gray';
+                } else if (i < typedWords.length - 1) {
+                    // Fully typed but wrong — show in red
+                    span.style.visibility = 'visible';
+                    span.style.color = 'red';
+                } else {
+                    // Not yet reached — reset
+                    span.style.visibility = 'visible';
+                    span.style.color = '';
+                }
+            });
+
+            // Scroll the text left once user passes 4 words
+            const scrollThreshold = 4;
+            if (completedCount > scrollThreshold) {
+                // Calculate how far past the threshold we are and shift accordingly
+                const wordsToShift = completedCount - scrollThreshold;
+                // Measure the pixel offset of the word we need to shift to
+                const targetSpan = document.getElementById(`word-${wordsToShift}`); //the span of the word we want to align to the left edge
+                if (targetSpan) {
+                    const offset = targetSpan.offsetLeft; //offset from the left edge of the container
+                    textToType.style.left = `-${offset}px`; //shift the text left by that amount
+                }
+            } else {
+                textToType.style.left = '0'; //reset to original position if user goes back before halfway
+            }
         });
+
     </script>
+
 
 </body>
 </html>
