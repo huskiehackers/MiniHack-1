@@ -106,7 +106,8 @@
     <div class="typing-container">
         <h1>Eat da word grubs!</h1>
 
-        <textarea id="timerDisplay" rows = 1></textarea>
+        <!-- This is the HTML element for the timer-->
+        <textarea readonly id="timerDisplay" rows = 1 placeholder="0"></textarea>
 
         <div id="svgs-container">
             <div class="svg-player">
@@ -221,6 +222,30 @@
             }
         });
 
+    </script>
+    
+    <!-- This is a script for the timer -->
+     <script>
+        let seconds = 0;
+        let intervalId;
+        
+        function Timer() {
+        seconds++;
+        document.getElementById("timerDisplay").textContent = seconds;
+        }
+
+        function startTimer() {
+        // Call updateTimer every 1000 milliseconds (1 second)
+        intervalId = setInterval(Timer, 1000);
+        }
+
+        function stopTimer() {
+        // Stop the interval using the ID
+        clearInterval(intervalId);
+        }
+
+        // Start the timer when the script loads
+        window.onload = startTimer;
     </script>
 
 
