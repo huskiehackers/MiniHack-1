@@ -222,6 +222,30 @@
         });
 
     </script>
+    
+    <!-- This is a script for the timer -->
+     <script>
+        let seconds = 0;
+        let intervalId;
+        
+        function Timer() {
+        seconds++;
+        document.getElementById("timerDisplay").textContent = seconds;
+        }
+
+        function startTimer() {
+        // Call updateTimer every 1000 milliseconds (1 second)
+        intervalId = setInterval(Timer, 1000);
+        }
+
+        function stopTimer() {
+        // Stop the interval using the ID
+        clearInterval(intervalId);
+        }
+
+        // Start the timer when the script loads
+        window.onload = startTimer;
+    </script>
 
 
 </body>
