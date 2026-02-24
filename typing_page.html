@@ -7,22 +7,27 @@
     
     <!-- CSS goes here inside the style tag -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Slackey&display=swap');
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: "Slackey", sans-serif;
+            color: #37190e;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-image: url("assets/leaf-background.jpg");
+            background-size: cover;
+            background-position: center;
             flex-direction: column;
         }
 
         .typing-container {
-            background-color: white;
+            background-color: #64351b;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 40px;
+            box-shadow: 0 4px 8px;
             width: 80%;
             max-width: 600px;
             text-align: center;
@@ -34,8 +39,8 @@
             left: 20px;
             padding: 10px 15px;
             font-size: 1em;
-            background-color: #000000;
-            color: white;
+            background-color: #b72626;
+            color: #3f0101;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -47,17 +52,18 @@
             font-size: 1.2em;
             margin-bottom: 15px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #37190e;
             min-height: 100px;
             text-align: left;
             user-select: none; 
         }
 
         #typing-input {
+            background-color: #659810;
             width: 100%;
             padding: 10px;
             font-size: 1em;
-            border: 1px solid #ccc;
+            border: 1px solid #294606;
             border-radius: 4px;
             box-sizing: border-box;
             resize: none; 
@@ -66,7 +72,7 @@
         .results {
             margin-top: 15px;
             font-size: 1em;
-            color: #333;
+            color: #37190e;
         }
 
         
@@ -84,6 +90,15 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        .svg-player img {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
             z-index: 2;
         }
 
@@ -111,7 +126,22 @@
             height: 100px;
         }
 
+        .svg-enemy svg {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+        }
 
+        .svg-enemy img {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            z-index: 2;
+        }
 
     </style>
 </head>
@@ -126,7 +156,7 @@
         <div id="svgs-container">
             <div class="svg-player">
                 <svg width="50" height="50">
-                    <circle -cx="35" cy="25" r="25" fill="black"></circle>
+                    <img src="assets/catepillar-runner.jpg" alt="caterpillar" width="50" height="50">
                 </svg>
                 <div id="text-to-type">
 
@@ -134,7 +164,7 @@
             </div>
             <div class="svg-enemy">
                 <svg width="50" height="50">
-                    <circle -cx="35" cy="25" r="25" fill="red"></circle>
+                    <img src="assets/fly.jpg" alt="fly" width="50" height="50">
                 </svg>
                 
             </div>
@@ -221,11 +251,11 @@
                 } else if (i < typedWords.length - 1 && typedWords[i] === word) {
                     // Fully typed & matches — gray it out
                     span.style.visibility = 'visible';
-                    span.style.color = 'gray';
+                    span.style.color = '#659810';
                 } else if (i < typedWords.length - 1) {
                     // Fully typed but wrong — show in red
                     span.style.visibility = 'visible';
-                    span.style.color = 'red';
+                    span.style.color = '#b72626';
                 } else {
                     // Not yet reached — reset
                     span.style.visibility = 'visible';
