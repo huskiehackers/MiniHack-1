@@ -33,6 +33,18 @@
             text-align: center;
             resize: none;
         }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            font-size: 1em;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
 
         #svgs-container {
@@ -139,7 +151,7 @@
         <h1>Eat da word grubs!</h1>
 
         <!-- This is the HTML element for the timer-->
-        <textarea readonly id="timerDisplay" rows = 1 placeholder="0"></textarea>
+        <textarea readonly id="timerDisplay" rows = 1 placeholder="1"  style="border:none;resize:none;text-align:center;">0s</textarea>
 
         <div id="svgs-container">
             <div class="svg-player">
@@ -161,6 +173,7 @@
         <div class="results">
             <p>WPM: <span id="wpm">0</span> | Accuracy: <span id="accuracy">100%</span></p>
         </div>
+        <div class="back-button" onclick="window.location.href='landing_page.html'">Back</div>
     </div>
 
 
@@ -199,13 +212,25 @@
             }
         });
 
+        // Disable pasting
+        textarea.addEventListener('paste', function(event) {
+            event.preventDefault(); // Stop the paste action
+        });
+
         //everytime the user inputs something into the box, run this code.
         textarea.addEventListener("input", () => {
             
             //Update the string value
             const content = textarea.value;
+            //incorrect words but only count the ones that are fully typed and wrong, not the current word being typed
+            const incorrectWords = content.split(/\s+/).filter((word, i) => {
+                const originalWord = words[i];
+                return word.length > 0 && word !== originalWord && i < content.split(/\s+/).length - 1;
+            }).length;        
             //get the number of words in the string
             word_counter(content);
+            //call accuracy calculator
+            accuracyDisplay.textContent = calculateAccuracy(incorrectWords, text);
 
             // Compare typed words to the paragraph and hide matched ones
             const typedWords = content.split(/\s+/).filter(w => w.length > 0);
@@ -252,6 +277,8 @@
             } else {
                 textToType.style.left = '0'; //reset to original position if user goes back before halfway
             }
+            
+
         });
 
     </script>
@@ -263,7 +290,7 @@
         
         function Timer() {
         seconds++;
-        document.getElementById("timerDisplay").textContent = seconds;
+        document.getElementById("timerDisplay").textContent = seconds + "s";
         }
 
         function startTimer() {
@@ -279,7 +306,22 @@
         // Start the timer when the script loads
         window.onload = startTimer;
     </script>
+    <!-- accuracy calculator -->
 
+    <script>
+        // Function to calculate accuracy as a percentage start at 100% and decrease based on the number of incorrect words typed
+        function calculateAccuracy(incorrectWords, original) {
+            const originalWords = original.trim().split(/\s+/);
+            let correctCount = originalWords.length; // Start with all words correct
+
+            // Count how many words are correct based on the number of incorrect words
+            correctCount = originalWords.length - incorrectWords;
+
+            // Calculate accuracy percentage, calculate only if the word is red and not gray
+            const accuracy = (correctCount / originalWords.length) * 100;
+            return accuracy.toFixed(0) + '%'; // Return accuracy as a percentage with 2 decimal places
+        }
+    </script>
 
 </body>
 </html>

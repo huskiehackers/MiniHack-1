@@ -26,7 +26,8 @@ function word_counter(istring)
 
     //craete a variable with the time
     let time_value = document.getElementById("timerDisplay").textContent;
-
+    time_value = time_value.replace(/s$/, "");
+    
     let words_per_minute = arr.length / (time_value / 60);
 
     document.getElementById("wpm").textContent = words_per_minute.toFixed(2);
